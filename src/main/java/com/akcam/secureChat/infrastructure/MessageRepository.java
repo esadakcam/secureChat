@@ -3,8 +3,6 @@ package com.akcam.secureChat.infrastructure;
 import com.akcam.secureChat.domain.message.Message;
 import com.google.common.base.Preconditions;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -16,6 +14,9 @@ public class MessageRepository implements IMessageRepository {
     @Override
     public void save(@NonNull Message message, @NonNull UUID chatId) {
         var messageContent = message.getContent();
+        Preconditions.checkNotNull(messageContent, "Message content cannot be null!");
+
+        message.setChatId(chatId);
 
         var messageList = messages.computeIfAbsent(chatId, k -> new LinkedList<Message>());
         messageList.add(message);
@@ -27,5 +28,17 @@ public class MessageRepository implements IMessageRepository {
                 .stream()
                 .sorted((m1, m2) -> m1.getTimestamp().compareTo(m2.getTimestamp()))
                 .toList();
+    }
+
+    @Override
+    public List<Message> getMessagesOfChat(List<UUID> userChats, Date date) {
+        var userMessagesSinceDate = new LinkedList<Message>();
+        for (var elem : userChats) {
+            var chatMessages = messages.get(elem).stream()
+                    .filter(message -> message.getTimestamp().before(date))
+                    .toList();
+            userMessagesSinceDate.addAll(chatMessages);
+        }
+        return userMessagesSinceDate;
     }
 }

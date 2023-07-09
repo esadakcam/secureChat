@@ -1,8 +1,12 @@
 package com.akcam.secureChat.domain.message;
 
-import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Builder
+import java.util.Date;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class FetchMessage extends AbstractMessage {
-    private final String content = "fetch";
+    private Date from;
 }

@@ -1,13 +1,13 @@
 package com.akcam.secureChat.domain.message;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.UUID;
 
-@Builder
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class Message extends AbstractMessage {
     private UUID chatId;
     private UUID recipientId;

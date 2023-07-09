@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserRepository implements IUserRepository {
@@ -50,6 +51,13 @@ public class UserRepository implements IUserRepository {
         var chatId = getBiChat(senderId, recipientId);
         return chatId.orElseGet(() -> createChat(senderId, recipientId).get());
 
+    }
+
+    @Override
+    public List<UUID> findChatsByUser(UUID senderId) {
+       return chats.keySet().stream()
+               .filter(key -> chats.get(key).contains(senderId))
+               .collect(Collectors.toList());
     }
 
     private boolean containsBiChat(UUID user1, UUID user2) {

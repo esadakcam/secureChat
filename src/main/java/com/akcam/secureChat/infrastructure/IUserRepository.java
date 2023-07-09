@@ -12,4 +12,6 @@ public interface IUserRepository {
     UUID createUser();
 
     UUID findChatID(UUID senderId, UUID recipientId);
+
+    List<UUID> findChatsByUser(UUID senderId);
 }

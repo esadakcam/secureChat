@@ -21,7 +21,7 @@ public class WebsocketController {
         websocketService.handleMessage(message);
     }
 
-    @MessageMapping("/fetch")
+    @MessageMapping("/fetchTopic")
     public void fetch(@Payload FetchMessage message){
         websocketService.handleMessage(message);
     }

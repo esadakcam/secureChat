@@ -18,13 +18,17 @@ public class WebsocketService {
     private final IUserRepository userRepository;
 
     public void handleMessage(@NonNull Message message) {
-        var chatID = message.getChatId() == null ? userRepository.findChatID(message.getSenderId(), message.getRecipientId()) :
-                message.getChatId();
+        var chatID = !userRepository.isValidChat(message.getChatId())
+                ? userRepository.findChatID(message.getSenderId(), message.getRecipientId())
+                : message.getChatId();
         messageRepository.save(message, chatID);
-        simpMessagingTemplate.convertAndSendToUser(message.getRecipientId().toString(), "/queue/messages",
-                "message received");
+        simpMessagingTemplate.convertAndSendToUser(message.getRecipientId().toString(), "/queue/messages", "message received");
     }
 
     public void handleMessage(FetchMessage message) {
+        var userChats = userRepository.findChatsByUser(message.getSenderId());
+        var messages = messageRepository.getMessagesOfChat(userChats, message.getFrom());
+        simpMessagingTemplate.convertAndSendToUser(message.getSenderId().toString(), "/queue/messages",
+                messages);
     }
 }
