@@ -35,7 +35,7 @@ public class MessageRepository implements IMessageRepository {
         var userMessagesSinceDate = new LinkedList<Message>();
         for (var elem : userChats) {
             var chatMessages = messages.get(elem).stream()
-                    .filter(message -> message.getTimestamp().before(date))
+                    .filter(message -> message.getTimestamp().after(date))
                     .toList();
             userMessagesSinceDate.addAll(chatMessages);
         }
