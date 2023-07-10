@@ -27,7 +27,7 @@ client.connect({}, (frame) => {
     client.subscribe("/user/" + ID.toString() + "/queue/messages", (msg) => {
         console.log("msg:")
         console.log(msg)
-        document.getElementById("messages").innerText+= "\n" + msg.body;
+        document.getElementById("messages").innerText += "\n" + msg.body;
     })
 })
 
@@ -40,6 +40,14 @@ document.getElementById("btn").addEventListener("click", () => {
     console.log("recipient: " + recipient);
     let message = createMessage(input, recipient);
     console.log("message : " + message);
-    client.send("/app/messageTopic",{}, JSON.stringify(message))
+    client.send("/app/messageTopic", {}, JSON.stringify(message))
+})
+
+document.getElementById("fetch").addEventListener("click", () => {
+    let date = document.getElementById("date").value
+    console.log(date);
+    let message = {senderID: ID, from: date};
+    client.send("/app/fetchTopic", {}, JSON.stringify(message));
+    console.log("sent: ", message)
 })
 
