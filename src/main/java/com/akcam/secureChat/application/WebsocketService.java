@@ -22,7 +22,7 @@ public class WebsocketService {
                 ? userRepository.findChatID(message.getSenderId(), message.getRecipientId())
                 : message.getChatId();
         messageRepository.save(message, chatID);
-        simpMessagingTemplate.convertAndSendToUser(message.getRecipientId().toString(), "/queue/messages", "message received");
+        simpMessagingTemplate.convertAndSendToUser(message.getRecipientId().toString(), "/queue/messages", message.getContent());
     }
 
     public void handleMessage(FetchMessage message) {
