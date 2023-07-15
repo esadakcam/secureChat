@@ -1,4 +1,4 @@
-let socket = new SockJS("http://localhost:8080/chat")
+let socket = new SockJS("https://localhost:8080/chat")
 let client = Stomp.over(socket)
 
 function uuidv4() {

@@ -31,4 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
-/src/main/resources/public/key.p12
+/src/main/resources/keystore/key.p12
