@@ -18,23 +18,23 @@ import org.springframework.stereotype.Controller;
 public class WebsocketController {
     private final WebsocketService websocketService;
 
-    @MessageMapping("/messageTopic")
+    @MessageMapping("/messageTopic") //Ordinary messaging
     public void message(@Payload Message message) {
         websocketService.handleMessage(message);
     }
 
-    @MessageMapping("/fetchTopic")
+    @MessageMapping("/fetchTopic") //Fetch messages of client after given date
     public void fetch(@Payload FetchMessage message) {
         websocketService.handleMessage(message);
     }
 
-    @MessageMapping("/sslHandshake")
+    @MessageMapping("/sslHandshake") //Create a RSA keypair and send public key to client
     public void handshake(@Payload HandshakeMessage clientHello) {
         websocketService.handleMessage(clientHello);
 
     }
 
-    @MessageMapping("/sessionKey")
+    @MessageMapping("/sessionKey") //Client encrypts the session key and sends back
     public void sessionKey(@Payload SessionKeyMessage key) {
         websocketService.handleMessage(key);
 

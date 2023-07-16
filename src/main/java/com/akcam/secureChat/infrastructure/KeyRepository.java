@@ -15,6 +15,7 @@ public class KeyRepository implements IKeyRepository{
         System.out.println(key.toString());
     }
 
+    // Save with Date.now to be able to timeout session key
     @Override
     public void saveSessionKey(@NonNull UUID clientID, @NonNull ByteBuffer sessionKey) {
 
