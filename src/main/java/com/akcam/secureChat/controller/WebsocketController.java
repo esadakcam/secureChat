@@ -2,7 +2,9 @@ package com.akcam.secureChat.controller;
 
 import com.akcam.secureChat.application.WebsocketService;
 import com.akcam.secureChat.domain.message.FetchMessage;
+import com.akcam.secureChat.domain.message.HandshakeMessage;
 import com.akcam.secureChat.domain.message.Message;
+import com.akcam.secureChat.domain.message.SessionKeyMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +14,30 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @Log4j2
-@RequiredArgsConstructor(onConstructor_= {@Autowired})
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class WebsocketController {
     private final WebsocketService websocketService;
 
     @MessageMapping("/messageTopic")
-    public void message(@Payload Message message){
+    public void message(@Payload Message message) {
         websocketService.handleMessage(message);
     }
 
     @MessageMapping("/fetchTopic")
-    public void fetch(@Payload FetchMessage message){
+    public void fetch(@Payload FetchMessage message) {
         websocketService.handleMessage(message);
+    }
+
+    @MessageMapping("/sslHandshake")
+    public void handshake(@Payload HandshakeMessage clientHello) {
+        websocketService.handleMessage(clientHello);
+
+    }
+
+    @MessageMapping("/sessionKey")
+    public void sessionKey(@Payload SessionKeyMessage key) {
+        websocketService.handleMessage(key);
+
+
     }
 }
