@@ -5,6 +5,7 @@ import com.akcam.secureChat.infrastructure.CipherUtil;
 import com.akcam.secureChat.infrastructure.IKeyRepository;
 import com.google.common.base.Preconditions;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,11 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@Log4j2
 public class SSLService {
     private final ConfigurableApplicationContext applicationContext;
     private final IKeyRepository keyRepository;
-
+    //TODO: add timeout for saved session keys
     Key createKeyForClient(UUID clientId) {
         KeyPair rsaKey = applicationContext.getBean(KeyPair.class);
         Preconditions.checkNotNull(rsaKey, "Key cant be null");
@@ -47,7 +49,7 @@ public class SSLService {
             sessionKey = cipher.doFinal();
             saveSessionKey(clientID, ByteBuffer.wrap(sessionKey));
         } catch (Exception e) {
-            System.out.println(e.toString());
+            log.warn("An error occurred while decrypting the session key {}", e.toString());
         }
     }
 }
