@@ -20,24 +20,29 @@ public class WebsocketController {
 
     @MessageMapping("/messageTopic") //Ordinary messaging
     public void message(@Payload Message message) {
+        log.info("Message from: {} to: {}", message.getSenderId(), message.getRecipientId());
         websocketService.handleMessage(message);
     }
 
     @MessageMapping("/fetchTopic") //Fetch messages of client after given date
     public void fetch(@Payload FetchMessage message) {
+
+        log.info("Fetch message from {}", message.getSenderId());
         websocketService.handleMessage(message);
     }
 
     @MessageMapping("/sslHandshake") //Create a RSA keypair and send public key to client
-    public void handshake(@Payload HandshakeMessage clientHello) {
-        websocketService.handleMessage(clientHello);
+    public void handshake(@Payload HandshakeMessage message) {
 
+        log.info("SSL handshake with {}", message.getSenderId());
+        websocketService.handleMessage(message);
     }
 
-    @MessageMapping("/sessionKey") //Client encrypts the session key and sends back
-    public void sessionKey(@Payload SessionKeyMessage key) {
-        websocketService.handleMessage(key);
 
+    @MessageMapping("/sessionKey") //Client encrypts the session key and sends back. IS IT NEEDED?
+    public void sessionKey(@Payload SessionKeyMessage message) {
 
+        log.info("Session key of: {}", message.getSenderId());
+        websocketService.handleMessage(message);
     }
 }

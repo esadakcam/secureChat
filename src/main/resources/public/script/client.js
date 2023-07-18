@@ -46,8 +46,14 @@ document.getElementById("btn").addEventListener("click", () => {
 document.getElementById("fetch").addEventListener("click", () => {
     let date = document.getElementById("date").value
     console.log(date);
-    let message = {senderID: ID, from: date};
+    let message = {senderId: ID, from: date};
     client.send("/app/fetchTopic", {}, JSON.stringify(message));
     console.log("sent: ", message)
+})
+
+document.getElementById("ssl-handshake").addEventListener("click", () => {
+    let message = {senderId: ID}
+    console.log(message)
+    client.send("/app/sslHandshake", {}, JSON.stringify(message))
 })
 

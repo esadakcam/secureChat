@@ -39,9 +39,10 @@ public class WebsocketService {
 
     public void handleMessage(@NonNull HandshakeMessage message) {
         var clientID = message.getSenderId();
+        //Does not implement prototype
         var publicKey = sslService.createKeyForClient(clientID);
         simpMessagingTemplate.convertAndSendToUser(message.getSenderId().toString(), "/queue/messages",
-                publicKey);
+                publicKey.getEncoded());
     }
 
     public void handleMessage(@NonNull SessionKeyMessage key) {
