@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -39,10 +41,10 @@ public class WebsocketService {
 
     public void handleMessage(@NonNull HandshakeMessage message) {
         var clientID = message.getSenderId();
-        //Does not implement prototype
+        //Does not implement prototype, key is always the same
         var publicKey = sslService.createKeyForClient(clientID);
         simpMessagingTemplate.convertAndSendToUser(message.getSenderId().toString(), "/queue/messages",
-                publicKey.getEncoded());
+                Arrays.toString(publicKey.getEncoded()));
     }
 
     public void handleMessage(@NonNull SessionKeyMessage key) {

@@ -10,5 +10,4 @@ public class SecureChatApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SecureChatApplication.class, args);
 	}
-
 }
