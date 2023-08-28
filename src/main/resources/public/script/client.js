@@ -1,6 +1,7 @@
-let socket = new SockJS("https://localhost:8080/chat")
+let socket = new SockJS("http://localhost:8080/chat")
 let client = Stomp.over(socket)
 
+var key= 'abc123XYZ';
 function uuidv4() {
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -43,6 +44,15 @@ document.getElementById("btn").addEventListener("click", () => {
     client.send("/app/messageTopic", {}, JSON.stringify(message))
 })
 
+document.getElementById("session-key").addEventListener("click", () => {
+    let input = document.getElementById("inp").value;
+
+    let message = {
+       senderId: ID,
+       sessionKey: "esa123d"
+    }
+    client.send("/app/sessionKey", {}, JSON.stringify(message))
+})
 document.getElementById("fetch").addEventListener("click", () => {
     let date = document.getElementById("date").value
     console.log(date);

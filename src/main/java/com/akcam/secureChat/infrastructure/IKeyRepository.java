@@ -1,16 +1,15 @@
 package com.akcam.secureChat.infrastructure;
 
-import lombok.NonNull;
+import com.akcam.secureChat.domain.key.SessionKey;
+import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
-import java.security.Key;
-import java.util.Optional;
 import java.util.UUID;
 
-public interface IKeyRepository {
-    void savePrivateKey(@NonNull UUID clientID, @NonNull Key key);
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-    void saveSessionKey(@NonNull UUID clientID, @NonNull ByteBuffer sessionKey);
+@Repository
+public interface IKeyRepository extends MongoRepository<SessionKey, UUID> {
 
-    Optional<Key> getPrivateKey(@NonNull UUID clientID);
 }
+
+
